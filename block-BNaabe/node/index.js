@@ -35,7 +35,6 @@
 // - when end event fires, send entire captured data in response with status code 201.
 
 let http = require("http");
-let qs = require("querystring");
 
 let server = http.createServer(handleRequest);
 
@@ -46,9 +45,8 @@ function handleRequest(req,res){
         store += chunk;
     });
     req.on("end" ,() => {
-        if(type = "application/x-www-form-urlencoded"){
-            let parseData = qs.parse(type);
-            res.end(parseData);
+        if(type = "application/json"){
+            res.end(store);
         }
     })
 };
@@ -56,9 +54,11 @@ server.listen("4444" , () => {
     console.log("Server is listening is on port");
 })
 
+
 // Q. Follow above steps with form data from postman instead of json data.
 // - once data has been captured, send only captain's name in response.
 let http = require("http");
+let qs = require("querystring");
 
 let server2 = http.createServer(handleRequest);
 
@@ -69,15 +69,17 @@ function handleRequest(req,res){
         store += chunk;
     });
     req.on("end" ,() => {
-        if(type = "application/json"){
-            let parseData = JSON.parse(store);
-            res.end(JSON.stringify(parseData).captain);
+        if(type = "application/x-www-form-urlencoded"){
+            let parseData = qs.parse(type);
+            res.end(parseData.captain);
         }
     })
 };
-server2.listen("4444" , () => {
+server.listen("4000" , () => {
     console.log("Server is listening is on port");
 })
+
+
 
 // Q. Create server which can handle both json/form data without specifying which format of data is being received.
 // - add listener on port 9000
@@ -91,24 +93,7 @@ server2.listen("4444" , () => {
 //   - country
 //   - pin
 
-let server3 = http.createServer(handleRequest);
 
-function handleRequest(req,res){
-    let type = req.headers("content-type");
-    let store = "";
-    req.on("data",(chunk) => {
-        store += chunk;
-    });
-    req.on("end" ,() => {
-        if(type = "application/json"){
-            let parseData = JSON.parse(store);
-            res.end(JSON.stringify(parseData).captain);
-        }
-    })
-};
-server3.listen("9000" , () => {
-    console.log("Server is listening is on port 9000");
-})
 
 // Q. create server, send json data in request from postman, parse in on the server and send html response with entire parsed data information.
 // - format of json data is {name: your name, email: "", }
@@ -117,6 +102,7 @@ server3.listen("9000" , () => {
 // Q. Follow above question with form data containing fields i.e name and email. 
 // - Parse form-data using `querystring` module
 // - respond with HTML page containing only email from data in H2 tag.
+
 
 // #### Note:- 
 // Make sure to convert objects into strings using `JSON.stringify` before passing the data through response.

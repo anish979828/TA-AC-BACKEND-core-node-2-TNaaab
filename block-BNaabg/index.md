@@ -70,7 +70,7 @@ if (req.url === "/users" && req.method === "POST") {
 
   // We have to create a file using username + append .json to create a proper file
 
-  // wx flag ensures that given username.json should not already exist in users directory, therwise throws an error
+  // wx flag ensures that given username.json should not already exist in users directory, otherwise throws an error
 
   fs.open(userDir + username + ".json", "wx", (err, fd) => {
     // fd is pointing to newly created file inside users directory
